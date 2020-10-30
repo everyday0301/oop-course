@@ -15,7 +15,7 @@ class Main(tk.Frame):
 		toolbar.pack(side=tk.TOP, fill=tk.X)
 
 		
-		btn_open_dialog = tk.Button(toolbar, text='gga agg', command=self.open_dialog, bg='#d7d8e0', bd=0, 
+		btn_open_dialog = tk.Button(toolbar, text='додати', command=self.open_dialog, bg='#d7d8e0', bd=0, 
 			compound=tk.TOP)
 		btn_open_dialog.pack(side=tk.LEFT)
 
@@ -27,21 +27,17 @@ class Main(tk.Frame):
 		self.tree.column('total', width=100, anchor=tk.CENTER)
 
 		self.tree.heading('ID', text='№')
-		self.tree.heading('description', text='name')
-		self.tree.heading('costs', text='price')
-		self.tree.heading('total', text='amount')
+		self.tree.heading('description', text='микола')
+		self.tree.heading('costs', text='котунович')
+		self.tree.heading('total', text='567')
 
 		self.tree.pack()
-
-	def records(self, description, costs, total):
-		self.db.insert_data(description, costs, total)
-		self.view_records()
+	
 
 
 	def view_records(self):
-		self.db.c.execute('''SELECT * FROM parts''')
-		[self.tree.delete(i) for i in self.tree.get_children()]
-		[self.tree.insert('', 'end', values=row) for row in self.db.c.fetchall()]
+	 	[self.tree.delete(i) for i in self.tree.get_children()]
+	 	[self.tree.insert('', 'end', values=row) for row in self.db.get_records()]
 
 
 	def open_dialog(self):
@@ -51,7 +47,7 @@ class Child(tk.Toplevel):
 	def __init__(self):
 		super().__init__(root)
 		self.init_child()
-		self.view = app
+		#self.view = app
 
 	def init_child(self):
 		self.title('aasd llld')
@@ -100,6 +96,10 @@ class DataBase:
 	
 		self.conn.commit()
 
+
+	def get_records(self):
+		self.c.execute('''SELECT * FROM parts''')
+		return self.c.fetchall()
 
 if __name__ == "__main__":
 	root = tk.Tk()
